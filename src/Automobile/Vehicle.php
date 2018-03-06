@@ -19,6 +19,19 @@ class Vehicle {
 		}
 		return $results;
 	}
+
+	public function view($id){
+		$results=[];
+
+		$SQL='SELECT * FROM automobile WHERE id = :id';
+		$sth=$this->DB->prepare($SQL);
+		$sth->bindParam(':id', $id, \PDO::PARAM_INT);
+		$sth->execute();
+		while($row=$sth->fetch(\PDO::FETCH_OBJ)) {
+			$results[]=$row;
+		}
+		return $results;
+	}
 }
 
 ?>
