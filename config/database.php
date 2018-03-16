@@ -1,7 +1,7 @@
 <?php
 /*DATABASE CONFIGURATION*/
 
-$_host='127.0.0.1';
+$_host='localhost';
 $_username='root';
 $_password='';
 $_dbname='trs';
