@@ -23,7 +23,7 @@ class Vehicle {
 	public function view($id){
 		$results=[];
 
-		$SQL='SELECT * FROM automobile WHERE id = :id';
+		$SQL='SELECT * FROM automobile WHERE automobile_id = :id';
 		$sth=$this->DB->prepare($SQL);
 		$sth->bindParam(':id', $id, \PDO::PARAM_INT);
 		$sth->execute();

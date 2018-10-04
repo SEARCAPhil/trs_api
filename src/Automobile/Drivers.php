@@ -9,7 +9,7 @@ class Drivers {
 	public function lists($page=0,$limit=50){
 		$results=[];
 		$page=$page<2?0:$page-1;
-		$SQL='SELECT * FROM account_profile WHERE status!=1 and position = "driver" ORDER BY profile_name ASC LIMIT :offset,:lim';
+		$SQL='SELECT * FROM account_profile WHERE position = "driver" ORDER BY profile_name ASC LIMIT :offset,:lim';
 		$sth=$this->DB->prepare($SQL);
 		$sth->bindParam(':lim',$limit,\PDO::PARAM_INT);
 		$sth->bindParam(':offset',$page,\PDO::PARAM_INT);

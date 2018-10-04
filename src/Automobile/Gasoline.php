@@ -131,7 +131,7 @@ class Gasoline {
 
 		$where = "(received_month >= :month and received_day >= :day and received_year >= :year) AND (received_month <= :end_month and received_day <= :end_day and received_year <= :end_year) and gasoline.status !=1 $where_driver $where_vehicle $where_station";
 
-		$SQL="SELECT gasoline.*, account_profile.profile_name, automobile.plate_no, automobile.manufacturer FROM gasoline LEFT JOIN account_profile on account_profile.id = gasoline.driver_id LEFT JOIN automobile on automobile.id = gasoline.automobile_id WHERE $where ORDER BY received_year, received_month, received_day DESC";
+		$SQL="SELECT gasoline.*, account_profile.profile_name, automobile.plate_no, automobile.manufacturer FROM gasoline LEFT JOIN account_profile on account_profile.id = gasoline.driver_id LEFT JOIN automobile on automobile.automobile_id = gasoline.automobile_id WHERE $where ORDER BY received_year, received_month, received_day DESC";
 		
 		$sth=$this->DB->prepare($SQL);
 		// from
