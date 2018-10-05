@@ -21,6 +21,7 @@ $result = [];
 $tr= '';
 $total_amount = 0;
 $total_liters = 0;
+$date = date('F-d-Y h:i:s');
 
 if($method == 'GET') {
 	$from = isset($_GET['from']) ? htmlentities(htmlspecialchars($_GET['from'])) : '';	
@@ -47,12 +48,14 @@ foreach ($result as $key => $value) {
 	$total_liters += $value->liters;
 
 	$am = @number_format($total_amount,2,'.',',');
-
+	$val_am = @number_format($value->amount,2,'.',',');
+	$date = date_create("{$value->received_year}-{$value->received_month}-{$value->received_day}");
+	$date = date_format($date, 'F-d-Y');
 
 	$tr .= " 	<tr>
-	 		<td>{$value->received_month}-{$value->received_day}-{$value->received_year}</td>
+	 		<td width='120px'>{$date}</td>
 	 		<td>{$value->liters}</td>
-	 		<td>PHP {$value->amount}</td>
+	 		<td style='text-align: right !important;'>{$val_am}</td>
 	 		<td>{$value->tt_number}</td>
 	 		<td>{$value->manufacturer} - <small style='color:rgb(100,100,100);'>{$value->plate_no}</small></td>
 	 		<td>{$value->receipt}</td>
@@ -81,8 +84,9 @@ $table= "
 		cellspacing:0px;
 		cellpadding:0px;
 		border-collapse:collapse;
-		font-size:14px;
+		font-size:13px;
 		margin-left:20px;
+		width: 400px;
 	}
 	.ledger-table td{
 		border:1px solid #ccc;	
@@ -97,12 +101,12 @@ $table= "
 <br/>
 <table class='ledger-table'> 
 	<thead>
-		<tr>
+		<tr style='background: #eee;'>
 			<th width='70px;'>Date</th>
 			<th width='60px;'>Liters</th>
-			<th width='100px;'>Amount</th>
+			<th width='100px; style='text-align: right !important;'>Amount in PHP</th>
 			<th width='60px;'>TR #</th>
-			<th width='150px;'>Vehicle.</th>
+			<th width='100px;'>Vehicle.</th>
 			<th width='100px;'>Receipt #</th>
 			<th width='200px;'>Gasoline Station</th>
 			<th width='200px;'>Assigned Driver</th>
@@ -122,11 +126,11 @@ $html = "<html>
 <head>
   <style>
     @page { margin: 80px 25px; }
-    header { position: fixed; top: -60px; left: 0px; right: 0px; height: 50px; text-align:center; }
+    header { position: fixed; top: -70px; left: 0px; right: 0px; height: 60px; text-align:center; }
     header p {
-    	font-size:12px;
+    	font-size:13px;
     }
-    footer { position: fixed; bottom: -75px; left: 0px; right: 0px; height: 30px; text-align:center; font-size:12px; }
+    footer { position: fixed; bottom: -75px; left: 0px; right: 0px; height: 30px;  font-size:11px; }
     /*p { page-break-after: always; }
     p:last-child { page-break-after: never; }*/
   </style>
@@ -137,11 +141,11 @@ $html = "<html>
 	  	<br/>AND RESEARCH IN AGRICULTURE
 	  	<br/>College, Laguna, 4031, Philippines
 	  	<br/>
-  	</p><br/>
+  	</p>
   	<h3>SEARCA Gasoline Charges</h3>
-  	<p style='float:left;margin-left:27px;text-align:left;'>FROM: {$from}<br/>TO : {$to}</p>
+  	<p style='float:left;margin-left:27px;text-align:left;'>From: <b>{$from}</b><br/>To : <b>{$to}</b></p>
   </header>
-  <!--<footer>Page /</footer>-->
+  <footer>TRS : {$date}</footer>
   <main>
   	<br/><br/><br/>
     <p>{$table}</p>
@@ -155,12 +159,13 @@ $dompdf->loadHtml($html);
 
 // (Optional) Setup the paper size and orientation
 $dompdf->setPaper('A4', 'landscape');
+$dompdf->set_option('defaultFont', 'Helvetica');
 
 // Render the HTML as PDF
 $dompdf->render();
 
 //page number
-$dompdf->getCanvas()->page_text(400, 570, "Page {PAGE_NUM} of {PAGE_COUNT}", '', 10, array(0,0,0));
+$dompdf->getCanvas()->page_text(400, 570, "Page {PAGE_NUM} of {PAGE_COUNT}", '', 9, array(0,0,0));
 
 // Output the generated PDF to Browser
 $dompdf->stream("gasoline.pdf", array("Attachment" => false));
