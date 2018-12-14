@@ -62,14 +62,8 @@ class Directory
     }
 
 
-
-
-    
-
-
-
 	public function departments_list()
-    {
+  {
 
         try{
                 $this->pdoObject = $this->DB;
@@ -83,6 +77,24 @@ class Directory
                
                 return $res;
         }catch(Exception $e){echo $e->getMessage();} 
-    }
+	}
+
+	public function gasoline_station()
+	{
+
+			try{
+							$this->pdoObject = $this->DB;
+							$sql="SELECT * FROM gasoline_Station WHERE status = 0";
+							$statement=$this->pdoObject->prepare($sql);
+							$statement->execute();
+							$res=Array();
+							while($row=$statement->fetch(\PDO::FETCH_OBJ)){
+									$res[]=$row;
+							}
+						 
+							return $res;
+			}catch(Exception $e){echo $e->getMessage();} 
+	}
+		
 
 }

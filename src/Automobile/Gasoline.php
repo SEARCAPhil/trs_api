@@ -168,6 +168,18 @@ class Gasoline {
 		return $results;
 	}
 
+	public function list_per_tt($tt){
+		$results=[];
+		$SQL='SELECT * FROM gasoline WHERE status=0 and tt_number =:tt ORDER BY id ASC';
+		$sth=$this->DB->prepare($SQL);
+		$sth->bindParam(':tt',$tt,\PDO::PARAM_INT);
+		$sth->execute();
+		while($row=$sth->fetch(\PDO::FETCH_OBJ)) {
+			$results[]=$row;
+		}
+		return $results;
+	}
+
 	public function filter($filter, $page=1){
 		if ($filter == 'unpaid') {
 			return self::lists_unpaid($page);
