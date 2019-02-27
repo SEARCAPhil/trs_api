@@ -30,6 +30,7 @@ if($method === 'POST') {
 	$station = isset($data->station) ? $data->station : null;
 	$driver_id = isset($data->driver_id) ? $data->driver_id : null;
 	$date_received = isset($data->date_received) ? $data->date_received : null;
+	$type = isset($data->type) ? $data->type : null;
 	$token = isset($data->token) ? $data->token : null;
 	
 
@@ -62,7 +63,7 @@ if($method === 'POST') {
 
 	// add new gasoline record
 	if ($action == 'create') {
-		$lastId = $Gas->create($tt_number,$automobile_id,$amount,$liters,$receipt,$station,$driver_id,$encoded_by,$received_day,$received_month,$received_year);
+		$lastId = $Gas->create($tt_number,$automobile_id,$amount,$liters,$receipt,$station,$driver_id,$encoded_by,$received_day,$received_month,$received_year,$type);
 
 		if($lastId > 0) {
 			// log
@@ -94,7 +95,7 @@ if($method === 'POST') {
 	if ($action == 'update') {
 		$id = isset($data->id) ? $data->id : null;
 		if (!empty($id)) {
-			$lastId = $Gas->update($id,$tt_number,$automobile_id,$amount,$liters,$receipt,$station,$driver_id,$encoded_by,$received_day,$received_month,$received_year);
+			$lastId = $Gas->update($id,$tt_number,$automobile_id,$amount,$liters,$receipt,$station,$driver_id,$encoded_by,$received_day,$received_month,$received_year,$type);
 			
 			if($lastId > 0) {
 				// log
