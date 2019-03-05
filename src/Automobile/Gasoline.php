@@ -15,9 +15,9 @@ class Gasoline {
 	}
 
 	
-	public function create($tt_number,$automobile_id,$amount,$liters,$receipt,$station,$driver_id,$encoded_by,$received_day,$received_month,$received_year){
+	public function create($tt_number,$automobile_id,$amount,$liters,$receipt,$station,$driver_id,$encoded_by,$received_day,$received_month,$received_year,$type){
 		$results=[];
-		$SQL='INSERT INTO gasoline(tt_number,automobile_id,amount,liters,receipt,station,driver_id,encoded_by,received_day,received_month,received_year) values(:tt_number,:automobile_id,:amount,:liters,:receipt,:station,:driver_id,:encoded_by,:received_day,:received_month,:received_year)';
+		$SQL='INSERT INTO gasoline(tt_number,automobile_id,amount,liters,receipt,station,driver_id,encoded_by,received_day,received_month,received_year,type) values(:tt_number,:automobile_id,:amount,:liters,:receipt,:station,:driver_id,:encoded_by,:received_day,:received_month,:received_year,:type)';
 		$sth=$this->DB->prepare($SQL);
 		$sth->bindParam(':tt_number',$tt_number);
 		$sth->bindParam(':automobile_id',$automobile_id);
@@ -30,13 +30,14 @@ class Gasoline {
 		$sth->bindParam(':received_day',$received_day);
 		$sth->bindParam(':received_month',$received_month);
 		$sth->bindParam(':received_year',$received_year);
+		$sth->bindParam(':type',$type);
 		$sth->execute();
 		return $this->DB->lastInsertId();
 	}
 
-	public function update($id,$tt_number,$automobile_id,$amount,$liters,$receipt,$station,$driver_id,$encoded_by,$received_day,$received_month,$received_year){
+	public function update($id,$tt_number,$automobile_id,$amount,$liters,$receipt,$station,$driver_id,$encoded_by,$received_day,$received_month,$received_year,$type){
 		$results=[];
-		$SQL='UPDATE gasoline SET tt_number = :tt_number, automobile_id = :automobile_id,amount = :amount,liters = :liters,receipt = :receipt,station = :station,driver_id =:driver_id,encoded_by = :encoded_by ,received_day =:received_day ,received_month =:received_month,received_year = :received_year WHERE id =:id';
+		$SQL='UPDATE gasoline SET tt_number = :tt_number, automobile_id = :automobile_id,amount = :amount,liters = :liters,receipt = :receipt,station = :station,driver_id =:driver_id,encoded_by = :encoded_by ,received_day =:received_day ,received_month =:received_month,received_year = :received_year, type = :type WHERE id =:id';
 		$sth=$this->DB->prepare($SQL);
 		$sth->bindParam(':id',$id);
 		$sth->bindParam(':tt_number',$tt_number);
@@ -50,6 +51,7 @@ class Gasoline {
 		$sth->bindParam(':received_day',$received_day);
 		$sth->bindParam(':received_month',$received_month);
 		$sth->bindParam(':received_year',$received_year);
+		$sth->bindParam(':type',$type);
 		$sth->execute();
 		return $sth->rowCount();
 	}

@@ -30,6 +30,9 @@ if($method == 'GET') {
 	$vehicle = isset($_GET['vehicle']) ? htmlentities(htmlspecialchars($_GET['vehicle'])) : null;
 	$station = isset($_GET['station']) ? htmlentities(htmlspecialchars($_GET['station'])) : null;	
 
+	$from_formatted = @(new \DateTime($from))->format('F d, Y');
+	$to_formatted = @(new \DateTime($to))->format('F d, Y');
+
 	if ($vehicle=='all') $vehicle = null;
 	if ($driver=='all') $driver = null;
 	if ($station=='all') $station = null;
@@ -50,16 +53,17 @@ foreach ($result as $key => $value) {
 	$am = @number_format($total_amount,2,'.',',');
 	$val_am = @number_format($value->amount,2,'.',',');
 	$date = date_create("{$value->received_year}-{$value->received_month}-{$value->received_day}");
-	$date = date_format($date, 'F-d-Y');
+	$date = date_format($date, 'F d, Y');
 
 	$tr .= " 	<tr>
 	 		<td width='120px'>{$date}</td>
-	 		<td>{$value->liters}</td>
+			<td style='background:rgba(240,240,240,0.3);'><b>{$value->id}</b></td>
+			<td>{$value->liters}</td>
 	 		<td style='text-align: right !important;'>{$val_am}</td>
 	 		<td>{$value->tt_number}</td>
-	 		<td>{$value->manufacturer} - <small style='color:rgb(100,100,100);'>{$value->plate_no}</small></td>
-	 		<td>{$value->receipt}</td>
-	 		<td>{$value->station}</td>
+	 		<td style='font-size: 10px;'>{$value->manufacturer} - <small style='color:rgb(100,100,100);'>{$value->plate_no}</small></td>
+	 		<td style='font-size: 10px;'>{$value->receipt}</td>
+	 		<td style='text-align: left !important;'>{$value->station}</td>
 	 		<td>{$value->profile_name}</td>
 	 	</tr>";
 }
@@ -103,11 +107,12 @@ $table= "
 	<thead>
 		<tr style='background: #eee;'>
 			<th width='70px;'>Date</th>
-			<th width='60px;'>Liters</th>
-			<th width='100px; style='text-align: right !important;'>Amount in PHP</th>
-			<th width='60px;'>TR #</th>
+			<th width='50px;'>ADS#</th>
+			<th width='50px;'>Liters</th>
+			<th width='80px; style='text-align: right !important;'>Amount in PHP</th>
+			<th width='60px;'>TT #</th>
 			<th width='100px;'>Vehicle.</th>
-			<th width='100px;'>Receipt #</th>
+			<th width='80px;'>Receipt #</th>
 			<th width='200px;'>Gasoline Station</th>
 			<th width='200px;'>Assigned Driver</th>
 		</tr>
@@ -143,7 +148,7 @@ $html = "<html>
 	  	<br/>
   	</p>
   	<h3>SEARCA Gasoline Charges</h3>
-  	<p style='float:left;margin-left:27px;text-align:left;'>From: <b>{$from}</b><br/>To : <b>{$to}</b></p>
+  	<p style='float:left;margin-left:27px;text-align:left;'>From: <b>{$from_formatted}</b><br/>To : <b>{$to_formatted}</b></p>
   </header>
   <footer>TRS : {$date}</footer>
   <main>
