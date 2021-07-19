@@ -79,7 +79,7 @@ class Gasoline {
 		$results=[];
 		$page=$page<2?0:$page-1;
 
-		$SQL='SELECT gasoline.*, account_profile.profile_name FROM gasoline LEFT JOIN account_profile on account_profile.id = gasoline.encoded_by WHERE received_month = :month and gasoline.status !=1 ORDER BY received_month, received_year, received_day DESC LIMIT :offset,:lim';
+		$SQL='SELECT gasoline.*, account_profile.profile_name FROM gasoline LEFT JOIN account_profile on account_profile.id = gasoline.encoded_by WHERE received_month = :month and gasoline.status !=1 OR gasoline.status IS NULL ORDER BY received_month, received_year, received_day DESC LIMIT :offset,:lim';
 		
 		$sth=$this->DB->prepare($SQL);
 		$sth->bindParam(':month', $month, \PDO::PARAM_INT);

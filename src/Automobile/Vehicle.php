@@ -9,7 +9,7 @@ class Vehicle {
 	public function lists($page=0,$limit=30){
 		$results=[];
 		$page=$page<2?0:$page-1;
-		$SQL='SELECT * FROM automobile WHERE status!=1 ORDER BY manufacturer ASC LIMIT :offset,:lim';
+		$SQL='SELECT * FROM automobile WHERE status!=1 OR status IS NULL ORDER BY manufacturer ASC LIMIT :offset,:lim';
 		$sth=$this->DB->prepare($SQL);
 		$sth->bindParam(':lim',$limit,\PDO::PARAM_INT);
 		$sth->bindParam(':offset',$page,\PDO::PARAM_INT);
